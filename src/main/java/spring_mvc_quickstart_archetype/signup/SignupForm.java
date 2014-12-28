@@ -1,6 +1,7 @@
 package spring_mvc_quickstart_archetype.signup;
 
-import org.hibernate.validator.constraints.*;
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotBlank;
 
 import com.bitbucket.thinbus.srp6.spring.SrpAccountEntity;
 
@@ -33,6 +34,7 @@ public class SignupForm {
 	}
 
 	public SrpAccountEntity createAccount() {
-        return new SrpAccountEntity(getEmail(), getPassword(), "ROLE_USER");
+		return new SrpAccountEntity(getEmail(), getPassword(), getPassword(),
+				"ROLE_USER");
 	}
 }

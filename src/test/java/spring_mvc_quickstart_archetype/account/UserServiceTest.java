@@ -20,9 +20,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
-import spring_mvc_quickstart_archetype.account.AccountRepository;
-import spring_mvc_quickstart_archetype.account.UserService;
-
 import com.bitbucket.thinbus.srp6.spring.SrpAccountEntity;
 
 @Ignore
@@ -60,7 +57,8 @@ public class UserServiceTest {
 	@Test
 	public void shouldReturnUserDetails() {
 		// arrange
-		SrpAccountEntity demoUser = new SrpAccountEntity("user@example.com", "demo", "ROLE_USER");
+		SrpAccountEntity demoUser = new SrpAccountEntity("user@example.com",
+				"asdf", "demo", "ROLE_USER");
 		when(accountRepositoryMock.findByEmail("user@example.com")).thenReturn(demoUser);
 
 		// act

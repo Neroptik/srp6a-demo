@@ -24,8 +24,10 @@ public class UserService implements UserDetailsService {
 	
 	@PostConstruct	
 	protected void initialize() {
-		accountRepository.save(new SrpAccountEntity("user", "demo", "ROLE_USER"));
-		accountRepository.save(new SrpAccountEntity("admin", "admin", "ROLE_ADMIN"));
+		accountRepository.save(new SrpAccountEntity("user", "salt", "demo",
+				"ROLE_USER"));
+		accountRepository.save(new SrpAccountEntity("admin", "salt2", "admin",
+				"ROLE_ADMIN"));
 	}
 	
 	@Override

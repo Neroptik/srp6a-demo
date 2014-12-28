@@ -5,6 +5,11 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <link href="../../../resources/css/bootstrap.min.css" rel="stylesheet" media="screen" th:href="@{/resources/css/bootstrap.min.css}"/>
     <link href="../../../resources/css/core.css" rel="stylesheet" media="screen" th:href="@{/resources/css/core.css}" />
+    <!-- Include minimised Thinbus SRP JS crypo library, chosen hashing algorithm, configuration  -->
+    <script th:src="@{/resources/js/sha256-min.js}"></script>
+    <script th:src="@{/resources/js/thinbus-srp6a-min.js}"></script>
+    <script th:src="@{/resources/js/thinbus-srp6a-config-sha256n1024.js}"></script>
+    <script th:src="@{/resources/js/signin.js}"></script>
 </head>
 <body>
 <form class="form-narrow form-horizontal" action="#" method="post" th:action="@{/authenticate}">

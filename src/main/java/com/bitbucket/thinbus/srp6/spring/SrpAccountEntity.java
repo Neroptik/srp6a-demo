@@ -7,8 +7,6 @@ import javax.persistence.Id;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
-import org.codehaus.jackson.annotate.JsonIgnore;
-
 /**
  * This is both an entity and a cached key
  */
@@ -30,20 +28,19 @@ public class SrpAccountEntity implements java.io.Serializable {
 	@Column(unique = true)
 	private String salt;
 
-	@JsonIgnore // TODO hangover from being a password? 
-	@Column(unique = true)
+	@Column
 	private String verifier;
 
-	// TODO why does this have to be a member with a setter not some read-only
-	// constant?
 	private String role = "ROLE_USER";
 
     protected SrpAccountEntity() {
 
 	}
 	
-	public SrpAccountEntity(String email, String verifier, String role) {
+	public SrpAccountEntity(String email, String salt, String verifier,
+			String role) {
 		this.email = email;
+		this.salt = salt;
 		this.verifier = verifier;
 		this.role = role;
 	}
