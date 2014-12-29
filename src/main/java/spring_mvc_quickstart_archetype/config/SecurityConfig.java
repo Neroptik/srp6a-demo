@@ -9,8 +9,6 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.servlet.configuration.EnableWebMvcSecurity;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.crypto.password.StandardPasswordEncoder;
 import org.springframework.security.web.authentication.rememberme.TokenBasedRememberMeServices;
 
 import spring_mvc_quickstart_archetype.account.UserService;
@@ -73,10 +71,10 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
         return new TokenBasedRememberMeServices("remember-me-key", userService());
     }
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new StandardPasswordEncoder();
-	}
+	// @Bean
+	// public PasswordEncoder passwordEncoder() {
+	// return new StandardPasswordEncoder();
+	// }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {

@@ -5,13 +5,18 @@
 	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
 		<encoder>
 			<pattern>
-				%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{32} - %msg%n
+				%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{32} -
+				%msg%n
 			</pattern>
 		</encoder>
 	</appender>
 
+	<!-- you really don't want trace level logging in a real application -->
+	<logger name="com.bitbucket.thinbus.srp6.spring.SrpAuthenticationProvider"
+		level="TRACE" />
+
 	<jmxConfigurator />
-	<root level="WARN">
+	<root level="INFO">
 		<appender-ref ref="STDOUT" />
 	</root>
 

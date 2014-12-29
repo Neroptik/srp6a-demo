@@ -27,13 +27,19 @@ var Login = {
     $(me.options.formId).on('submit', function (e) {
       e.preventDefault();
       
-      var data = {
-        email: me.getEmail()
-      };
+      var loginForm = $(me.options.formId);
+      var fields = loginForm.serializeArray();
+      
+      var values = {};
 
-      $('#login-output').append('<b>-> Client, I</b><br/>' + data.email + '<br/>');
+      $.each(fields, function (i, field) {
+        if (field.name === 'password') return;
+        values[field.name] = field.value;
+      });
 
-      $.post(me.options.challengeUrl, data, function () {
+      $('#login-output').append('<b>-> Client, I</b><br/>' + values.email + '<br/>');
+
+      $.post(me.options.challengeUrl, values, function () {
         me.onChallengeResponse.apply(me, arguments);
       }, 'json');
 
@@ -51,6 +57,8 @@ var Login = {
     
     var start = Date.now();
     
+    var password = me.getPassword();
+    
     try {
     	client.step1(me.email, me.password);
     } catch(e) {
@@ -62,19 +70,28 @@ var Login = {
 
     var end = Date.now();
 
-    var data = {
-    		j_username: me.getEmail(),
-    		j_password: credentials.M1+":"+credentials.A
-    };
+    var loginForm = $(me.options.formId);
+    var fields = loginForm.serializeArray();
     
-	console.log("j_username: "+ data.j_username);
-	console.log("j_password: "+ data.j_password);
+    var values = {
+    		username: me.getEmail(),
+    		password: credentials.M1+":"+credentials.A
+    };
 
-    $('#login-output').append('<b>-> Client, M</b><br/>' + data.M1 + ' crypto took ' + (end-start) + 'ms <br/>');
+    $.each(fields, function (i, field) {
+      if (field.name === 'password') return;
+      values[field.name] = field.value;
+    });
+    
+    
+	console.log("username: "+ values.username);
+	console.log("password: "+ values.password);
 
-    $.post(me.options.securityCheckUrl, data, function () {
-      me.onRespondResponse.apply(me, arguments);
-    }, 'json');
+    $('#login-output').append('<b>-> Client, M</b><br/>' + values.M1 + ' crypto took ' + (end-start) + 'ms <br/>');
+
+    $.post(me.options.securityCheckUrl, values, function (response) { // TODO pass in rendering behaviour from the html page
+  	  $('body').html(response);
+    });
   },
 
   onRespondResponse: function (response) {
@@ -100,7 +117,7 @@ var Login = {
   },
 
   getPassword: function () {
-    return $(this.options.passwordId).attr('value');
+    return $(this.options.passwordId).val();
   },
 
   getClient: function () {

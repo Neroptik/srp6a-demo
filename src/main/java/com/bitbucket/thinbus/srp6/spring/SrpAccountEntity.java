@@ -81,6 +81,10 @@ public class SrpAccountEntity implements java.io.Serializable {
 		this.role = role;
 	}
 
+	/**
+	 * Equals and hashcode use the values known to the client so that it can be
+	 * a cache key.
+	 */
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -92,6 +96,10 @@ public class SrpAccountEntity implements java.io.Serializable {
 		return result;
 	}
 
+	/**
+	 * Equals and hashcode use the values known to the client so that it can be
+	 * a cache key.
+	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -117,5 +125,11 @@ public class SrpAccountEntity implements java.io.Serializable {
 		} else if (!verifier.equals(other.verifier))
 			return false;
 		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "SrpAccountEntity [id=" + id + ", email=" + email + ", salt="
+				+ salt + ", verifier=" + verifier + ", role=" + role + "]";
 	}
 }

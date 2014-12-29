@@ -57,27 +57,28 @@ public class SrpAuthenticationProvider implements AuthenticationProvider {
 								.add(new SimpleGrantedAuthority("ROLE_USER"));
 						Authentication auth = new UsernamePasswordAuthenticationToken(
 								userId, null, grantedAuths);
+						log.info("user {} authenticated via SRP", userId);
 						return auth;
 					} else {
-						log.info(
-								"user session for '{}' not advanced to state STEP_1 via ajax so unable to complete authentication with form post",
+						log.trace(
+								"user srp session for '{}' not advanced to state STEP_1 via ajax so unable to complete authentication with form post",
 								userId);
 						return null;
 					}
 				} else {
-					log.info("user {} credentials is not in 'M1':'A' format",
+					log.trace("user {} credentials is not in 'M1':'A' format",
 							userId);
 					return null;
 				}
 			} else {
-				log.info("user '{}' not found in repository", userId);
+				log.trace("user '{}' not found in repository", userId);
 				return null;
 			}
 
 		} catch (Throwable t) {
-			log.info(
-					"SrpAuthenticationProvider saw exception most likely due to failed srp verification step:",
-					t);
+			log.trace(
+					"SrpAuthenticationProvider saw exception most likely due to failed srp verification step: {} '{}'",
+					t.getClass().getCanonicalName(), t.getMessage());
 			return null;
 		}
 	}

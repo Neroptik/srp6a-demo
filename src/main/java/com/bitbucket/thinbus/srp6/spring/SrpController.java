@@ -58,7 +58,7 @@ public class SrpController {
 		return "redirect:/";
 	}
 
-	@RequestMapping(value = "/challenge", method = RequestMethod.POST)
+	@RequestMapping(value = "challenge", method = RequestMethod.POST)
 	public @ResponseBody SrpServerChallenge challenge(HttpServletRequest request,
 			@RequestParam(value = "email", required = true) String email,
 			Model model) {

@@ -78,13 +78,8 @@
       });
 
       $.post('./register', values, function (response) {
-        if (response.error) {
-          $('#register-output').html(response.error);
-        } else {
-          var userId = response['email'];
-          $('#register-output').html("User registered with id: " + userId);
-        }
-      }, 'json');
+    	  $('body').html(response);
+      });
 
       return false;
     });

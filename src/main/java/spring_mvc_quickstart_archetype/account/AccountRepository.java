@@ -1,11 +1,9 @@
 package spring_mvc_quickstart_archetype.account;
 
-import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
 
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,12 +16,8 @@ public class AccountRepository {
 	@PersistenceContext
 	private EntityManager entityManager;
 	
-	@Inject
-	private PasswordEncoder passwordEncoder;
-	
 	@Transactional
 	public SrpAccountEntity save(SrpAccountEntity account) {
-		account.setVerifier(passwordEncoder.encode(account.getVerifier()));
 		entityManager.persist(account);
 		return account;
 	}
