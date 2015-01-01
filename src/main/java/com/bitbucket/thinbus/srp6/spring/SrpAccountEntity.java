@@ -1,8 +1,8 @@
 package com.bitbucket.thinbus.srp6.spring;
 
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -19,16 +19,14 @@ public class SrpAccountEntity implements java.io.Serializable {
 	public static final String FIND_BY_EMAIL = "SrpAccountEntity.findByEmail";
 
 	@Id
-	@GeneratedValue
-	private Long id; // TODO get rid of this and make the email the id
-
 	@Column(unique = true)
 	private String email;
 	
 	@Column(unique = true)
 	private String salt;
 
-	@Column
+	@Column(columnDefinition = "CLOB")
+	@Convert(converter = JPACryptoConverter.class)
 	private String verifier;
 
 	private String role = "ROLE_USER";
@@ -43,10 +41,6 @@ public class SrpAccountEntity implements java.io.Serializable {
 		this.salt = salt;
 		this.verifier = verifier;
 		this.role = role;
-	}
-
-	public Long getId() {
-		return id;
 	}
 
     public String getEmail() {
@@ -129,7 +123,7 @@ public class SrpAccountEntity implements java.io.Serializable {
 
 	@Override
 	public String toString() {
-		return "SrpAccountEntity [id=" + id + ", email=" + email + ", salt="
+		return "SrpAccountEntity [email=" + email + ", salt="
 				+ salt + ", verifier=" + verifier + ", role=" + role + "]";
 	}
 }
