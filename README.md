@@ -1,4 +1,4 @@
-# Thinbus SRP PHP Demo
+# Thinbus Secure Remote Password SRP6a Authentication with Spring Security
 
 Copyright (c) Simon Massey, 2015
  
