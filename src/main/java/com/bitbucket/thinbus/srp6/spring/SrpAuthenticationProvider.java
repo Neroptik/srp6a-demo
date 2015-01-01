@@ -52,6 +52,9 @@ public class SrpAuthenticationProvider implements AuthenticationProvider {
 					if (SRP6ServerSession.State.STEP_1.name() == state) {
 						// this step throws if the password proof fails
 						serverSession.step2(A, M1);
+						// remove the server session as cannot be reused
+						sessionCache.asMap().remove(ud);
+
 						List<GrantedAuthority> grantedAuths = new ArrayList<>();
 						grantedAuths
 								.add(new SimpleGrantedAuthority("ROLE_USER"));

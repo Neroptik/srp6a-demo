@@ -2,8 +2,6 @@ package spring_mvc_quickstart_archetype.account;
 
 import java.util.Collections;
 
-import javax.annotation.PostConstruct;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -21,14 +19,6 @@ public class UserService implements UserDetailsService {
 	
 	@Autowired
 	private AccountRepository accountRepository;
-	
-	@PostConstruct	
-	protected void initialize() {
-		accountRepository.save(new SrpAccountEntity("user", "salt", "demo",
-				"ROLE_USER"));
-		accountRepository.save(new SrpAccountEntity("admin", "salt2", "admin",
-				"ROLE_ADMIN"));
-	}
 	
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
