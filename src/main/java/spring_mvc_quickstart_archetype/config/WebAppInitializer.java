@@ -1,10 +1,11 @@
 package spring_mvc_quickstart_archetype.config;
 
+import javax.servlet.Filter;
+import javax.servlet.ServletRegistration;
+
 import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.filter.DelegatingFilterProxy;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
-
-import javax.servlet.*;
 
 public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
 
@@ -15,7 +16,8 @@ public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServlet
 
     @Override
     protected Class<?>[] getRootConfigClasses() {
-        return new Class<?>[] {ApplicationConfig.class, JpaConfig.class, SecurityConfig.class};
+		return new Class<?>[] { ApplicationConfig.class, JpaConfig.class,
+				SecurityConfig.class };
     }
 
     @Override

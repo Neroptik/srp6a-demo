@@ -3,8 +3,10 @@ package spring_mvc_quickstart_archetype.config;
 import java.util.concurrent.TimeUnit;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -33,27 +35,22 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
 		return new SrpAuthenticationProvider();
 	}
 
-	String N() { // TODO externalize this config
-		return "19502997308733555461855666625958719160994364695757801883048536560804281608617712589335141535572898798222757219122180598766018632900275026915053180353164617230434226106273953899391119864257302295174320915476500215995601482640160424279800690785793808960633891416021244925484141974964367107";
-	}
+	@Value("${thinbus.N}")
+	private String N;
 
-	String g() { // TODO externalize this config
-		return "2";
-	}
+	@Value("${thinbus.g}")
+	private String g;
 
-	int timeoutSeconds() { // TODO externalize this config
-		return 120;
-	}
-
+	@Lazy(true)
 	@Bean
 	LoadingCache<SrpAccountEntity, SRP6JavascriptServerSession> sessionCache() {
 		return CacheBuilder
 				.newBuilder()
-				.expireAfterAccess(timeoutSeconds(), TimeUnit.SECONDS)
+				.expireAfterAccess(120, TimeUnit.SECONDS)
 				.build(new CacheLoader<SrpAccountEntity, SRP6JavascriptServerSession>() {
 					public SRP6JavascriptServerSession load(SrpAccountEntity key) {
 						SRP6JavascriptServerSession session = new SRP6JavascriptServerSessionSHA256(
-								N(), g());
+								N, g);
 						session.step1(key.getEmail(), key.getSalt(),
 								key.getVerifier());
 						return session;
