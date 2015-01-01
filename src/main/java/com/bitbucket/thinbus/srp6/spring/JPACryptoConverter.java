@@ -12,6 +12,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.codec.Base64;
 
+/**
+ * Encrypts a database column with a secret key. The key should only be know to
+ * the webserver.
+ */
 @Converter
 public class JPACryptoConverter implements AttributeConverter<String, String> {
 

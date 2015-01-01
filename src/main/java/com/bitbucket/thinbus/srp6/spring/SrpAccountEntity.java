@@ -19,16 +19,21 @@ public class SrpAccountEntity implements java.io.Serializable {
 	public static final String FIND_BY_EMAIL = "SrpAccountEntity.findByEmail";
 
 	@Id
-	@Column(unique = true)
 	private String email;
 	
 	@Column(unique = true)
 	private String salt;
 
+	/**
+	 * Note that we encrypt the verifier in the database to protect against
+	 * leaked database backups being used to perform an offline dictionary
+	 * attack
+	 */
 	@Column(columnDefinition = "CLOB")
 	@Convert(converter = JPACryptoConverter.class)
 	private String verifier;
 
+	@Column
 	private String role = "ROLE_USER";
 
     protected SrpAccountEntity() {

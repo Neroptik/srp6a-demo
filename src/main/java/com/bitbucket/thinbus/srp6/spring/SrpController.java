@@ -56,16 +56,23 @@ public class SrpController {
 	}
 
 	@RequestMapping(value = "challenge", method = RequestMethod.POST)
-	public @ResponseBody SrpServerChallenge challenge(HttpServletRequest request,
+	public @ResponseBody SrpServerChallenge challenge(
+			HttpServletRequest request,
 			@RequestParam(value = "email", required = true) String email,
 			Model model) {
 
 		final SrpAccountEntity key = accountRepository.findByEmail(email);
 
-		SRP6JavascriptServerSession srpSession = sessionCache.getUnchecked(key);
+		SrpServerChallenge result = new SrpServerChallenge("0", "0");
 
-		return new SrpServerChallenge(key.getSalt(),
-				srpSession.getPublicServerValue());
+		if (key != null) {
+			SRP6JavascriptServerSession srpSession = sessionCache
+					.getUnchecked(key);
+			result = new SrpServerChallenge(key.getSalt(),
+					srpSession.getPublicServerValue());
+		}
+
+		return result;
 	}
 
 }
