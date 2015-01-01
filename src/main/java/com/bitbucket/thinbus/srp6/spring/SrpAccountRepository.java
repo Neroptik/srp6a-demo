@@ -1,4 +1,4 @@
-package spring_mvc_quickstart_archetype.account;
+package com.bitbucket.thinbus.srp6.spring;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -7,11 +7,9 @@ import javax.persistence.PersistenceException;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.bitbucket.thinbus.srp6.spring.SrpAccountEntity;
-
 @Repository
 @Transactional(readOnly = true)
-public class AccountRepository {
+public class SrpAccountRepository {
 	
 	@PersistenceContext
 	private EntityManager entityManager;

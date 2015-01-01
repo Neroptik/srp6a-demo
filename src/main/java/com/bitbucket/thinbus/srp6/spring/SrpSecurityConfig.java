@@ -1,4 +1,4 @@
-package spring_mvc_quickstart_archetype.config;
+package com.bitbucket.thinbus.srp6.spring;
 
 import java.util.concurrent.TimeUnit;
 
@@ -13,19 +13,15 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.annotation.web.servlet.configuration.EnableWebMvcSecurity;
 import org.springframework.security.web.authentication.rememberme.TokenBasedRememberMeServices;
 
-import spring_mvc_quickstart_archetype.account.UserService;
-
 import com.bitbucket.thinbus.srp6.js.SRP6JavascriptServerSession;
 import com.bitbucket.thinbus.srp6.js.SRP6JavascriptServerSessionSHA256;
-import com.bitbucket.thinbus.srp6.spring.SrpAccountEntity;
-import com.bitbucket.thinbus.srp6.spring.SrpAuthenticationProvider;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 
 @Configuration
 @EnableWebMvcSecurity
-class SecurityConfig extends WebSecurityConfigurerAdapter {
+public class SrpSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
 	private SrpAuthenticationProvider srpAuthenticationProvider;
@@ -59,19 +55,14 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
 	}
 
     @Bean
-    public UserService userService() {
-        return new UserService();
+    public SrpUserService userService() {
+        return new SrpUserService();
     }
 
     @Bean
     public TokenBasedRememberMeServices rememberMeServices() {
         return new TokenBasedRememberMeServices("remember-me-key", userService());
     }
-
-	// @Bean
-	// public PasswordEncoder passwordEncoder() {
-	// return new StandardPasswordEncoder();
-	// }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -80,7 +71,6 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-		// TODO remove '/signup'?
         http
             .authorizeRequests()
 				.antMatchers("/", "/favicon.ico", "/resources/**", "/signup",

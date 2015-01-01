@@ -13,8 +13,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
-import spring_mvc_quickstart_archetype.account.AccountRepository;
-
 import com.bitbucket.thinbus.srp6.js.SRP6JavascriptServerSession;
 import com.google.common.cache.LoadingCache;
 import com.nimbusds.srp6.SRP6ServerSession;
@@ -27,7 +25,7 @@ public class SrpAuthenticationProvider implements AuthenticationProvider {
 	protected LoadingCache<SrpAccountEntity, SRP6JavascriptServerSession> sessionCache;
 
 	@Inject
-	protected AccountRepository repository;
+	protected SrpAccountRepository repository;
 
 	@Override
 	public Authentication authenticate(Authentication authentication) {

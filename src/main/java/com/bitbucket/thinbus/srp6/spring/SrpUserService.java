@@ -1,4 +1,4 @@
-package spring_mvc_quickstart_archetype.account;
+package com.bitbucket.thinbus.srp6.spring;
 
 import java.util.Collections;
 
@@ -13,12 +13,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
-import com.bitbucket.thinbus.srp6.spring.SrpAccountEntity;
-
-public class UserService implements UserDetailsService {
+public class SrpUserService implements UserDetailsService {
 	
 	@Autowired
-	private AccountRepository accountRepository;
+	private SrpAccountRepository accountRepository;
 	
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

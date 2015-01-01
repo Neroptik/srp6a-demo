@@ -15,9 +15,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import spring_mvc_quickstart_archetype.account.AccountRepository;
-import spring_mvc_quickstart_archetype.account.UserService;
-import spring_mvc_quickstart_archetype.signup.SignupForm;
 import spring_mvc_quickstart_archetype.support.web.MessageHelper;
 
 import com.bitbucket.thinbus.srp6.js.SRP6JavascriptServerSession;
@@ -30,16 +27,16 @@ public class SrpController {
 	protected LoadingCache<SrpAccountEntity, SRP6JavascriptServerSession> sessionCache;
 
 	@Inject
-	protected AccountRepository accountRepository;
+	protected SrpAccountRepository accountRepository;
 
 	@Autowired
-	private UserService userService;
+	private SrpUserService userService;
 
 	private static final String SIGNUP_VIEW_NAME = "signup/signup";
 
 	@RequestMapping(value = "signup")
 	public String signup(Model model) {
-		model.addAttribute(new SignupForm());
+		model.addAttribute(new SrpSignupForm());
 		return SIGNUP_VIEW_NAME;
 	}
 
