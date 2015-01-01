@@ -1,3 +1,8 @@
+
+// thanks to tm_lv http://stackoverflow.com/a/11268104/329496
+
+// note that there is an extra check in this version that the password is at least 8 char long. 
+
 function scorePassword(pass) {
     var score = 0;
     if (!pass)
@@ -22,13 +27,19 @@ function scorePassword(pass) {
     for (var check in variations) {
         variationCount += (variations[check] == true) ? 1 : 0;
     }
-    score += (variationCount - 1) * 10;
+    score += (variationCount - 1) * 10; 
 
     return parseInt(score);
 }
 
 function checkPassStrength(pass) {
+	
+	if( pass.length < 8 ) {
+		return "poor";
+	}
+	
     var score = scorePassword(pass);
+    
     if (score > 80)
         return "strong";
     if (score > 60)
@@ -36,7 +47,7 @@ function checkPassStrength(pass) {
     if (score >= 30)
         return "weak";
 
-    return "";
+    return "poor";
 }
 
 $(document).ready(function() {
