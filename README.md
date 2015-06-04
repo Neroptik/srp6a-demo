@@ -12,6 +12,8 @@ cd thinbus-srp-spring-demo
 mvn clean package jetty:run
 ```
 
+The run command starts jetty running at http://localhost:8080/
+
 ## Notes
 
 An additional implementation detail is that the server needs to hold state between the two browser requests. Spring Security does not expose the user `HTTPSession` to the `AuthenticationProvider`. This aligns to the principle of least privilege when applied to the security code of the stateless HTTP protocol. The demo code uses a Guava cache with a timeout to hold server session state for long enough to allow users to login. 
@@ -44,4 +46,4 @@ A salient feature of the integration is that there are no changes to the standar
    limitations under the License.
 ```
    
-End. 
+End.
