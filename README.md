@@ -18,7 +18,7 @@ The run command starts jetty running at http://localhost:8080/
 
 An additional implementation detail is that the server needs to hold state between the two browser requests. Spring Security does not expose the user `HTTPSession` to the `AuthenticationProvider`. This aligns to the principle of least privilege when applied to the security code of the stateless HTTP protocol. The demo code uses a Guava cache with a timeout to hold server session state for long enough to allow users to login. As of Thinbus 1.2.1 the session is serialisable so an alternative approach would be to hold it in the database for the duration of the login.  
 
-The codebase is an adaption of the sample application generated using [spring-mvc-quickstart version 1.0.0](https://github.com/kolorobot/spring-mvc-quickstart-archetype). The original generated codebase creates accounts, uses standard password authentication and has a helpful 'remember me' feature. A brief overview of the changes made to the original codebase to replace plain text password authentication with SRP authentication are as follows:
+The codebase is an adaption of the sample application generated using [spring-mvc-quickstart version 1.0.0](https://github.com/kolorobot/spring-mvc-quickstart-archetype). It creates accounts, uses standard password authentication and has a helpful 'remember me' feature. A brief overview of the changes made to the original codebase to replace plain text password authentication with SRP authentication are as follows:
  
 1. Reconfigured the spring security logic to use the `SrpAuthenticationProvider`
 1. Deleted the original `AccountController` which is replaced with `SrpAccountController`
