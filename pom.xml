@@ -27,7 +27,7 @@
 		</dependencies>
 	</dependencyManagement>
 	<dependencies>
-			<!-- Thinbus SRP -->
+		<!-- Thinbus SRP -->
 		<dependency>
 			<groupId>org.bitbucket.simon_massey</groupId>
 			<artifactId>thinbus-srp6a-js</artifactId>
@@ -174,11 +174,41 @@
 		</dependency>
 	</dependencies>
 	<build>
+		<finalName>zktodo2</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.eclipse.jetty</groupId>
 				<artifactId>jetty-maven-plugin</artifactId>
 				<version>9.2.6.v20141205</version>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<version>2.3</version>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>copy</goal>
+						</goals>
+						<configuration>
+							<artifactItems>
+								<artifactItem>
+									<groupId>org.eclipse.jetty</groupId>
+									<artifactId>jetty-runner</artifactId>
+									<version>${jetty.version}</version>
+									<destFileName>jetty-runner.jar</destFileName>
+								</artifactItem>
+								<artifactItem>
+									<groupId>org.eclipse.jetty</groupId>
+									<artifactId>jetty-jmx</artifactId>
+									<version>${jetty.version}</version>
+									<destFileName>jetty-jmx.jar</destFileName>
+								</artifactItem>
+							</artifactItems>
+						</configuration>
+					</execution>
+				</executions>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
