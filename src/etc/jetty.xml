@@ -14,7 +14,6 @@
 <!-- See start.ini file for the default configuraton files           -->
 <!-- =============================================================== -->
 
-
 <Configure id="Server" class="org.eclipse.jetty.server.Server">
 
     <!-- =========================================================== -->
