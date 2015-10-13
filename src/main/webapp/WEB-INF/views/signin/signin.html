@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Sign In</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link href="../../../resources/css/bootstrap.min.css" rel="stylesheet" media="screen" th:href="@{/resources/css/bootstrap.min.css}"/>
+    <link href="../../../resources/css/core.css" rel="stylesheet" media="screen" th:href="@{/resources/css/core.css}" />
+    <!-- Include minimised Thinbus SRP JS crypo library, chosen hashing algorithm, configuration  -->
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <script th:src="@{/resources/js/sha256-min.js}"></script>
+    <script th:src="@{/resources/js/thinbus-srp6a-min.js}"></script>
+    <script th:src="@{/resources/js/thinbus-srp6a-config-sha256n1024.js}"></script>
+    <script th:src="@{/resources/js/signin.js}"></script>
+</head>
+<body>
+<form id="login-form" class="form-narrow form-horizontal" method="post">
+    <fieldset>
+        <legend>Please Sign In</legend>
+        <div class="form-group">
+            <label for="email-login" class="col-lg-2 control-label">Email</label>
+            <div class="col-lg-10">
+                <input type="text" class="form-control" id="email-login" placeholder="Email" name="email" value="ruslan.zavackiy@gmail.com" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="password-login" class="col-lg-2 control-label">Password</label>
+            <div class="col-lg-10">
+                <input type="password" class="form-control" id="password-login" placeholder="Password" name="password" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-lg-offset-2 col-lg-10">
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" name="_spring_security_remember_me" /> Remember me
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-lg-offset-2 col-lg-10">
+                <button type="submit" class="btn btn-default" id="loginBtn">Sign in</button>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-lg-offset-2 col-lg-10">
+                <p>New here? <a href="signup" th:href="@{/signup}">Sign Up</a></p>
+            </div>
+        </div>
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+    </fieldset>
+</form>
+      <div class="alert alert-success">
+        <div id="login-output" style="margin-top: 10px;"></div>
+      </div>
+<script type="text/javascript">
+  $(function () {
+    Login.initialize({
+      emailId: '#email-login',
+      formId: '#login-form',
+      registerBtnId: '#loginBtn',
+      passwordId: '#password-login',
+      passwordSaltId: '#password-login-salt',
+      passwordVerifierId: '#password-login-verifier',
+      challengeUrl: './challenge',
+      securityCheckUrl: '/authenticate'
+    });
+  });
+</script>
+</body>
+</html>
