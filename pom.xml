@@ -14,7 +14,7 @@
 			provided explicitly -->
 		<assertj-core-version>1.5.0</assertj-core-version>
 		<thinbus.version>1.3.0</thinbus.version>
-		<jetty.version>9.3.4.v20151007</jetty.version>
+		<jetty.version>8.1.14.v20131031</jetty.version>
 	</properties>
 	<dependencyManagement>
 		<dependencies>
