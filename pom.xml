@@ -200,12 +200,6 @@
 									<version>${jetty.version}</version>
 									<destFileName>jetty-runner.jar</destFileName>
 								</artifactItem>
-								<artifactItem>
-									<groupId>org.eclipse.jetty</groupId>
-									<artifactId>jetty-jmx</artifactId>
-									<version>${jetty.version}</version>
-									<destFileName>jetty-jmx.jar</destFileName>
-								</artifactItem>
 							</artifactItems>
 						</configuration>
 					</execution>
