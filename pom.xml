@@ -14,7 +14,7 @@
 			provided explicitly -->
 		<assertj-core-version>1.5.0</assertj-core-version>
 		<thinbus.version>1.3.0</thinbus.version>
-		<jetty.version>8.1.14.v20131031</jetty.version>
+		<jetty.version>9.2.13.v20150730</jetty.version>
 	</properties>
 	<dependencyManagement>
 		<dependencies>
@@ -195,7 +195,7 @@
 						<configuration>
 							<artifactItems>
 								<artifactItem>
-									<groupId>org.mortbay.jetty</groupId>
+									<groupId>org.eclipse.jetty</groupId>
 									<artifactId>jetty-runner</artifactId>
 									<version>${jetty.version}</version>
 									<destFileName>jetty-runner.jar</destFileName>
