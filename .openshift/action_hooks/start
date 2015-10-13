@@ -1,3 +1,5 @@
 # $OPENSHIFT_DIY_PORT which is usually 8080
-#
+# see http://stackoverflow.com/a/23895161/329496 to install jdk1.8 no DIY cartridge
+export JAVA_HOME="$OPENSHIFT_DATA_DIR/jdk/jdk1.8.0_05"
+export PATH=$JDK8_PATH:$PATH
 nohup java -Djetty.host=${OPENSHIFT_DIY_IP} -Djetty.port=${OPENSHIFT_DIY_PORT} -cp ${OPENSHIFT_REPO_DIR}target/dependency/jetty-runner.jar org.eclipse.jetty.runner.Runner --port ${OPENSHIFT_DIY_PORT} ${OPENSHIFT_REPO_DIR}/targetthinbus-srp-spring-demo.war > ${OPENSHIFT_LOG_DIR}server.log 2>&1 &
