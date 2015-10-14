@@ -4,6 +4,10 @@ Copyright (c) Simon Massey, 2015
  
 This demo application uses [Thinbus SRP](https://bitbucket.org/simon_massey/thinbus-srp-js) to register and login users into a Spring MVC web application using Spring Security. Integrating the [SRP protocol](http://srp.stanford.edu/design.html) into Spring Security requires an extra initial AJAX request. The user first enters their credentials and clicks on the submit button. The browser then uses AJAX to pass the username to fetch the user salt `s` together with a one-time server challenge `B`. The browser then generates a one-time ephemeral key `A` and uses that and the password to compute the password proof `M1`. These values `A`+`M1` are concatenated together and substituted for the actual password to post the form login form to the server.  Spring security then only needs to be configured with a custom AuthenticationProvider to check the `A`+`M1` credential. The user experience is that they enter their username and password and hit submit and they login just like a normal login form. 
 
+## Demo
+
+The demo may be running at [http://thinbus-n00p.rhcloud.com/](http://thinbus-n00p.rhcloud.com/) if not then you should follow the next section to have the build tool run it locally. 
+
 ## Building And Running
 
 ```sh
