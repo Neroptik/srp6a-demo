@@ -26,6 +26,7 @@ The codebase is an adaption of the sample application generated using [spring-mv
  
 1. Reconfigured the spring security logic to use the `SrpAuthenticationProvider`
 1. Deleted the original `AccountController` which is replaced with `SrpAccountController`
+1. Whitelisted the `/challenge` path used by the ajax lookup within `SrpSecurityConfig`
 1. Added Thinbus JavaScript to the sign-up page to register the user with a salt and verifier
 1. Added Thinbus JavaScript to the sign-in page to perform the AJAX lookup of the salt and server challenge `B`. The value `A` and the computed password proof `M1` are then substituted for the actual password in the login form. 
 1. Added JPA code to encrypt the SRP verifier in the database so that user accounts cannot be subjected to an offline dictionary attack using a leaked database backup. 

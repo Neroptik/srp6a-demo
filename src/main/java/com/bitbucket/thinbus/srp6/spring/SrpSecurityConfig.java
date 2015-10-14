@@ -72,7 +72,7 @@ public class SrpSecurityConfig extends WebSecurityConfigurerAdapter {
         http
             .authorizeRequests()
 				.antMatchers("/", "/favicon.ico", "/resources/**", "/signup",
-						"/register", "/challenge")
+						"/register", "/challenge", "/OpenSSLCryptoConfigServlet")
 				.permitAll()
                 .anyRequest().authenticated()
                 .and()
