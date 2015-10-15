@@ -12,16 +12,16 @@
 <div th:replace="fragments/header :: header">Header</div>
 <div class="container">
     <div class="text-center">
-        <h1>Test</h1>
+        <h1>Welcome to the <a href="https://bitbucket.org/simon_massey/thinbus-srp-spring-demo">Thinbus Secure Remote Password SRP6a Authentication with Spring Security</a> demo!</h1>
+    </div>
         <p class="lead">
-            Welcome to the <a href="https://bitbucket.org/simon_massey/thinbus-srp-spring-demo">Thinbus Secure Remote Password SRP6a Authentication with Spring Security</a> demo!
-            Get started quickly by signing up.
-            You can also try out the <a href="/OpenSSLCryptoConfigServlet">Thinbus SRP OpenSSLCryptoConfigServlet</a>.
+            All this application lets you do is sign-up (or change your password), logout, and login. 
+            That's all you need to now about how to integrate Thinbus SRP into your application to give you zero knowledge proof-of-password authentication! 
         </p>
+        <p>There is also a link above to the Thinbus Configuration Generator which you can use to generate your own large safe prime to use with Thinbus.</p>
         <p>
             <a href="/signup" th:href="@{/signup}" class="btn btn-success btn-lg">Sign up</a>
         </p>
-    </div>
     <div th:replace="fragments/footer :: footer">&copy; 2013 The Static Templates</div>
 </div>
 </body>

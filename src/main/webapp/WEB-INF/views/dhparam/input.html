@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Thinbus SRP Configuration Generator</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link href="../../../resources/css/bootstrap.min.css" rel="stylesheet" media="screen" th:href="@{/resources/css/bootstrap.min.css}"/>
+    <link href="../../../resources/css/core.css" rel="stylesheet" media="screen" th:href="@{/resources/css/core.css}" />
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <script src="../../../resources/js/bootstrap.min.js" th:src="@{/resources/js/bootstrap.min.js}"></script>
+</head>
+<body>
+<div th:replace="fragments/header :: header">Header</div>
+<div class="container">
+        <h1 align="center">Thinbus Configuration Generator</h1>
+        <p class="lead">
+           This page will parse the output of running 'openssl dhparam -text' and output the constants needed to configure <a href='https://bitbucket.org/simon_massey/thinbus-srp-js/overview'>Thinbus SRP</a>
+        </p>
+<pre># create your parameters set &lt;bit-length&gt; (recommended minimum of 2048)
+openssl dhparam -text &lt;bit-length&gt; | tee /tmp/my_dhparam.txt</pre>
+		<p class="lead">
+           Paste the output of the above command into the textarea below:
+        </p>
+        <p>
+            <form action="/dhparam" id="usrform" method="post">
+  <textarea rows="25" cols="90" name="dhparam" form="usrform">
+Diffie-Hellman-Parameters: (256 bit)
+    prime:
+        00:a0:f8:c5:41:4f:34:4b:39:d6:f5:4f:c9:a1:87:
+        31:ec:96:f6:72:46:05:c3:a2:db:8c:3e:95:04:52:
+        8e:ec:63
+    generator: 2 (0x2)
+-----BEGIN DH PARAMETERS-----
+MCYCIQCg+MVBTzRLOdb1T8mhhzHslvZyRgXDotuMPpUEUo7sYwIBAg==
+-----END DH PARAMETERS-----
+  </textarea><br/>
+    Hash: <input type="text" name="hash" value="SHA-256"/> <input type="submit"/>
+  <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+</form>
+        </p>
+    <div th:replace="fragments/footer :: footer">&copy; 2013 The Static Templates</div>
+</div>
+</body>
+</html>

@@ -8,13 +8,4 @@
 		<location>/generalError</location>
 	</error-page>
 
-	<servlet>
-		<servlet-name>OpenSSLCryptoConfigServlet</servlet-name>
-		<servlet-class>com.bitbucket.thinbus.srp6.servlet.OpenSSLCryptoConfigServlet</servlet-class>
-	</servlet>
-
-	<servlet-mapping>
-		<servlet-name>OpenSSLCryptoConfigServlet</servlet-name>
-		<url-pattern>/OpenSSLCryptoConfigServlet/*</url-pattern>
-	</servlet-mapping>
 </web-app>

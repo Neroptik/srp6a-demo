@@ -22,10 +22,11 @@ import org.thymeleaf.templateresolver.TemplateResolver;
 
 import spring_mvc_quickstart_archetype.Application;
 
+import com.bitbucket.thinbus.srp6.openssl.DHParamController;
 import com.bitbucket.thinbus.srp6.spring.SrpController;
 
 @Configuration
-@ComponentScan(basePackageClasses = { Application.class, SrpController.class }, includeFilters = @Filter(Controller.class), useDefaultFilters = false)
+@ComponentScan(basePackageClasses = { Application.class, SrpController.class, DHParamController.class }, includeFilters = @Filter(Controller.class), useDefaultFilters = false)
 class WebMvcConfig extends WebMvcConfigurationSupport {
 
     private static final String MESSAGE_SOURCE = "/WEB-INF/i18n/messages";
