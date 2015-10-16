@@ -15,7 +15,7 @@ The following sequence diagram shows how a registered user is logged in:
 In the diagram above the user is shown a standard login form. They enter their email and password and click the login button. 
 JavaScript then makes an AJAX call using their email to load their `salt` and a one-time server challenge `B`. JavaScript creates 
 a one-time client challenge `A` and uses all the information to compute a password proof `M1`. It then posts to the server 
-the email, `A`+`M1` as the user's credentials. Spring security then only needs to be configured with a custom AuthenticationProvider to check the `A`+`M1` credential using the `verifier`. The user experience is that they enter their username and password and hit submit and they are logged in; just like a normal login form. 
+the email, `A`+`M1` as the user's credentials. The user experience is that they enter their username and password and hit submit and are logged in; just like a normal login form. 
 
 Note that the server has to remember the one-time server challenge `B` that it gave to the browser in order to check the user's password proof. This requires storing the one-time challenge value either in the database, the server session or a server cache for the short duration of the login protocol. 
 
