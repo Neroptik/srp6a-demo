@@ -4,7 +4,7 @@ Copyright (c) Simon Massey, 2015
  
 This demo application uses [Thinbus SRP](https://bitbucket.org/simon_massey/thinbus-srp-js) to register and login users into a Spring MVC web application using Spring Security. 
 
-The following sequence diagram shows how the user is registered using an email salt and salt and password verifier generated at the browser: 
+The following sequence diagram shows how the user is registered using an email, salt and password verifier generated at the browser: 
 
 ![Thinbus SRP Register Diagram](http://simon_massey.bitbucket.org/thinbus/register.png "Thinbus SRP Register Diagram")
 
