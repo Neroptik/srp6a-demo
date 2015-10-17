@@ -1,5 +1,5 @@
 /**
- * The Login object uses AJAX and an SRP6JavascriptClientSessionSHA256 object to perform the password proof 
+ * The Login object uses jQuery AJAX and an SRP6JavascriptClientSessionSHA256 object to perform a proof-of-password.  
  * See http://simon_massey.bitbucket.org/thinbus/login.png
  */
 var Login = {
@@ -35,6 +35,7 @@ var Login = {
     }
     
     $(me.options.formId).on('submit', function (e) {
+      // We MUST prevent default submit logic which would submit the raw password so that we can do the SRP protocol instead. 
       e.preventDefault();
       
       var loginForm = $(me.options.formId);
@@ -74,7 +75,7 @@ var Login = {
     try {
     	srpClient.step1(email, password);
     } catch(e) {
-    	console.log('authentication failed '+e);
+    	console.log('unexpected programmer error: '+e.message);
     	window.location = window.location;
     }
     

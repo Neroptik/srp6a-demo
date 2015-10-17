@@ -46,50 +46,24 @@
         <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
     </fieldset>
 </form>
-      <div class="alert alert-success">
-        <div>
-          <b>Password salt</b>
-          <div id="password-salt-output" style="overflow: hidden;">&nbsp;</div>
-        </div>
-        <div>
-          <b>Password verifier</b>
-          <div id="password-verifier-output" style="overflow: hidden; overflow-x: visible;">&nbsp;</div>
-        </div>
-        <div id="register-output" style="margin-top: 10px;"></div>
-      </div>
-<script type="text/javascript">
+<script th:inline="javascript">
   $(function () {
 	    Register.initialize({
+	    	registerUrl: './register',
 	        emailId: '#email-login',
 	        formId: '#register-form',
 	        registerBtnId: '#registerBtn',
 	        passwordId: '#password',
 	        passwordSaltId: '#password-salt',
-	        passwordVerifierId: '#password-verifier'
+	        passwordVerifierId: '#password-verifier',
+	        whitelistFields: [ 
+              'email', 
+              'salt',
+              'verifier',
+              /*[[${_csrf.parameterName}]]*/ 
+            ]
 	      });
-
-    var registerForm = $('#register-form');
-    registerForm.on('submit.srp', function () {
-      var fields = registerForm.serializeArray();
-
-      var values = {};
-
-      $.each(fields, function (i, field) {
-        if (field.name === 'password') return;
-        values[field.name] = field.value;
-      });
-
-      $.post('./register', values, function (response) {
-    	  $('body').html(response);
-      });
-
-      return false;
-    });
   });
-  
-
-
-  
 </script>
 </body>
 </html>

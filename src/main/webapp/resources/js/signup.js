@@ -1,43 +1,64 @@
+/**
+ * The Register object uses jQuery AJAX and an SRP6JavascriptClientSessionSHA256
+ * to generate a salt and a verifier which is sent to the server. See
+ * http://simon_massey.bitbucket.org/thinbus/register.png
+ */
 var Register = {
-	verifier : null,
-	password : null,
-	srpClient : null,
-	email : null,
-
+	/**
+	 * The following options may be overridden by passing a customer options object into `initialize` method. 
+	 * See http://simon_massey.bitbucket.org/thinbus/register.png
+	 * @param registerUrl The URL to post the email, salt and verifier. 
+	 * @param registerBtnId The button to disable until the user has filled in the form. 
+	 * @param formId The form who's onSubmit will run the SRP protocol. 
+	 * @param emailId The id of the form input field where the user gives their id/email
+	 * @param passwordId The id of the password field used to generate the password verifier. 
+	 * @param passwordSaltId The field to populate with the generated salt. 
+	 * @param passwordVerifierId The field to populate with the generated password verifier. 
+	 * @param whitelistFields The fields to post to the server. MUST NOT INCLUDE THE RAW PASSWORD. Some frameworks embed a CSRF token in every form which must be submitted with the form so that hidden field can be whitelisted. 
+	 */
 	options : {
-		emailId : '#email-login',
-		formId : '#register-form',
+		registerUrl : './register',
 		registerBtnId : '#registerBtn',
+		formId : '#register-form',
+		emailId : '#email-login',
 		passwordId : '#password',
 		passwordSaltId : '#password-salt',
-		passwordVerifierId : '#password-verifier'
+		passwordVerifierId : '#password-verifier',
+		whitelistFields : [ 'email', 'salt', 'verifier' ]
 	},
 
 	initialize : function(options) {
 		var me = this;
 
+		me.disableSubmitBtn();
+
 		if (options) {
 			me.options = options;
 		}
 
-		$(options.formId).on('submit', $.proxy(function() {
-			me.onPasswordChange();
+		// attach logic to the form onSubmit
+		$(options.formId).on('submit', $.proxy(function(e) {
+			// We MUST prevent default submit logic which would submit the raw password so that we can do the SRP protocol instead. 
+			e.preventDefault();
+			me.postSaltAndVerifier();
 		}, me));
 
+		// attach logic to the email field onKeyUp
 		$(options.emailId).on('keyup', $.proxy(function(event) {
+			// see recommendation in the thinbus docs 
 			random16byteHex.advance(Math.floor(event.keyCode / 4));
-			me.onPasswordChange();
 		}, me));
 
+		// attach logic to the password field onKeyUp
 		$(options.passwordId).on(
 				'keyup',
 				$.proxy(function(event) {
+					// only enable the button if the user has entered some password
 					$(event.currentTarget).val().length ? me.enableSubmitBtn()
 							: me.disableSubmitBtn();
+					// see recommendation in the thinbus docs 
 					random16byteHex.advance(Math.floor(event.keyCode / 4));
-					me.onPasswordChange();
 				}, me));
-
 	},
 
 	disableSubmitBtn : function() {
@@ -48,63 +69,47 @@ var Register = {
 		$(this.options.registerBtnId).removeAttr('disabled');
 	},
 
-	onPasswordChange : function() {
+	postSaltAndVerifier : function() {
 		var me = this;
 
-		var verifier = this.generateVerifier();
+		var email = me.getEmail();
+		var password = me.getPassword();
 
-		if (typeof verifier !== 'undefined' && verifier !== null
-				&& verifier != "") {
-			$(me.options.passwordSaltId).attr('value', verifier.salt);
-			$(me.options.passwordVerifierId).attr('value', verifier.verifier);
+		var srpClient = new SRP6JavascriptClientSessionSHA256();
 
-			$('#password-salt-output').text(verifier.salt);
-			$('#password-verifier-output').text(verifier.verifier);
-		}
+		var salt = srpClient.generateRandomSalt();
+
+		var verifier = srpClient.generateVerifier(salt, email, password);
+
+		$(me.options.passwordSaltId).attr('value', salt);
+		$(me.options.passwordVerifierId).attr('value', verifier);
+
+		var registerForm = $(me.options.formId);
+		var fields = registerForm.serializeArray();
+
+		var postValues = {};
+
+		// copy only white-listed fields such that you don't post the raw password and do pass any additional required fields e.g. CSRF Token
+		$.each(fields, function(i, field) {
+			var found = $.inArray(field.name, me.options.whitelistFields) > -1; // http://stackoverflow.com/a/6116511/329496
+			if (found) {
+				postValues[field.name] = field.value;
+			}
+		});
+
+		console.log('Client: ' + JSON.stringify(postValues));
+
+		$.post(me.options.registerUrl, postValues, function(response) {
+			$('body').html(response);
+		});
+
 	},
 
 	getEmail : function() {
-		//var email = $(this.options.emailId).val();
-		//console.log("email:" + email);
 		return $(this.options.emailId).val();
 	},
 
 	getPassword : function() {
-		//var pp = $(this.options.passwordId).val();
-		//console.log("password:" + pp);
 		return $(this.options.passwordId).val();
-	},
-
-	getClient : function() {
-
-		if (this.srpClient === null) {
-			var jsClientSession = new SRP6JavascriptClientSessionSHA256();
-			this.srpClient = jsClientSession;
-		}
-
-		return this.srpClient;
-	},
-
-	generateVerifier : function() {
-		this.email = this.getEmail();
-		this.password = this.getPassword();
-		if (this.email !== null && this.email != ""
-				&& typeof this.password !== 'undefined'
-				&& this.password !== null && this.password != "") {
-			var client = this.getClient();
-			/**
-			Consider passing a secure random on a hidden field and passing that as the optional argument
-			e.g. 
-			var salt = client.generateRandomSalt(serverSecureRandomValue);
-			 */
-			var salt = client.generateRandomSalt();
-			var v = client.generateVerifier(salt, this.email, this.password);
-			this.verifier = {
-				'salt' : salt,
-				'verifier' : v
-			}
-		}
-
-		return this.verifier;
 	}
 }
