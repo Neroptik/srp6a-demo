@@ -70,10 +70,9 @@ $(function () {
  Here we demonstrate overriding the default 'options' values of the Login object in the signin.js file.  
  See the comments in signin.js for details of what these values are and their defaults. 
  Note that as SpringMVC has built in CSRF Token support we tell the SRP code to submit that hidden input 
- field else Spring will reject the form submit as a possible CSRF attack. So we white list that field 
+ field else Spring will reject the form submit as a possible CSRF attack. So we white-list that field 
  to post to the server along with the email and the computed proof-of-password. 
  */
- 
   Login.initialize({
    challengeUrl: './challenge',
    securityCheckUrl: '/authenticate',
