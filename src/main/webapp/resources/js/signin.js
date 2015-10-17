@@ -1,20 +1,30 @@
+/**
+ * The Login object uses AJAX and an SRP6JavascriptClientSessionSHA256 object to perform the password proof 
+ * See http://simon_massey.bitbucket.org/thinbus/login.png
+ */
 var Login = {
-  srpClient: null,
-  password: null,
-  email: null, 
-
+		
+  /**
+   * The following options may be overridden by passing a customer options object into `initialize` method. 
+   * See http://simon_massey.bitbucket.org/thinbus/login.png
+   * @param challengeUrl The URL to do the AJAX lookup to get the user's salt `s` and one-time random server challenge `B`. 
+   * @param securityCheckUrl The URL to post the password proof. 
+   * @param emailId The id of the form input field where the user gives their id/email used in the AJAX fetch of the user's salt and challenge. 
+   * @param passwordId The id of the password field used to compute a proof-of-password with the server one-time challenge and the user's salt. 
+   * @param formId The form who's onSubmit will run the SRP protocol. 
+   * @param whitelistFields The fields to post to the server. MUST NOT INCLUDE THE RAW PASSWORD. Some frameworks embed a CSRF token in every form which must be submitted with the form so that hidden field can be whitelisted. 
+   * @param debugOutput The demo overrides this to output to html in the page. 
+   */
   options: {
-    emailId: '#email-login',
-    formId: '#login-form',
-    registerBtnId: '#loginBtn',
-    passwordId: '#password-login',
-    passwordSaltId: '#password-login-salt',
-    passwordVerifierId: '#password-login-verifier'
-  },
-
-  defaults: {
-    challengeResponse: {},
-    verifyResponse: {}
+	 challengeUrl: './challenge',
+	 securityCheckUrl: '/authenticate',
+     emailId: '#email-login',
+     passwordId: '#password-login',
+     formId: '#login-form',
+     whitelistFields: ['email'],
+     debugOutput: function (msg){
+    	 console.log(msg);
+     }
   },
 
   initialize: function (options) {
@@ -23,23 +33,26 @@ var Login = {
     if (options) {
       me.options = options;
     }
-
+    
     $(me.options.formId).on('submit', function (e) {
       e.preventDefault();
       
       var loginForm = $(me.options.formId);
       var fields = loginForm.serializeArray();
       
-      var values = {};
+      var postValues = {};
 
+      // copy only white-listed fields such that you don't post the raw password and do pass any additional required fields e.g. CSRF Token
       $.each(fields, function (i, field) {
-        if (field.name === 'password') return;
-        values[field.name] = field.value;
+    	var found = $.inArray(field.name, me.options.whitelistFields) > -1; // http://stackoverflow.com/a/6116511/329496
+        if (found ) {
+        	postValues[field.name] = field.value;
+        }
       });
 
-      $('#login-output').append('<b>-> Client, I</b><br/>' + values.email + '<br/>');
+      me.options.debugOutput('Client: ' + JSON.stringify(postValues) );
 
-      $.post(me.options.challengeUrl, values, function () {
+      $.post(me.options.challengeUrl, postValues, function () {
         me.onChallengeResponse.apply(me, arguments);
       }, 'json');
 
@@ -50,23 +63,22 @@ var Login = {
   onChallengeResponse: function (response) {
     var me = this;
 
-    $('#login-output').append('<b><- Server, Salt</b><br/>' + response.salt + '<br/>');
-    $('#login-output').append('<b><- Server, B</b><br/>' + response.b + '<br/>');
+    me.options.debugOutput('Server: ' + JSON.stringify(response) );
 
-    var client = me.getClient();
+    var email = me.getEmail();
+    var password = me.getPassword();
+    var srpClient = new SRP6JavascriptClientSessionSHA256();
     
     var start = Date.now();
-    
-    var password = me.getPassword();
-    
+
     try {
-    	client.step1(me.email, me.password);
+    	srpClient.step1(email, password);
     } catch(e) {
-    	alert("Client session is in end state and cannot be reused so refreshing the demo page to start again.");
+    	console.log('authentication failed '+e);
     	window.location = window.location;
     }
     
-    var credentials = client.step2(response.salt, response.b);
+    var credentials = srpClient.step2(response.salt, response.b);
 
     var end = Date.now();
 
@@ -74,61 +86,32 @@ var Login = {
     var fields = loginForm.serializeArray();
     
     var values = {
-    		username: me.getEmail(),
-    		password: credentials.M1+":"+credentials.A
+		username: me.getEmail(),
+		password: credentials.M1+":"+credentials.A
     };
 
+    // copy only white-listed fields such that you don't post the raw password and do pass any additional required fields e.g. CSRF Token
     $.each(fields, function (i, field) {
-      if (field.name === 'password') return;
-      values[field.name] = field.value;
+  	var found = $.inArray(field.name, me.options.whitelistFields) > -1; // http://stackoverflow.com/a/6116511/329496
+      if (found ) {
+      	values[field.name] = field.value;
+      }
     });
     
-    
-	console.log("username: "+ values.username);
-	console.log("password: "+ values.password);
+	me.options.debugOutput('Client: crypto took ' + (end-start) + 'ms');
+	me.options.debugOutput('Client: ' + JSON.stringify(values) );
 
-    $('#login-output').append('<b>-> Client, M</b><br/>' + values.M1 + ' crypto took ' + (end-start) + 'ms <br/>');
-
-    $.post(me.options.securityCheckUrl, values, function (response) { // TODO pass in rendering behaviour from the html page
+    $.post(me.options.securityCheckUrl, values, function (response) {
   	  $('body').html(response);
     });
   },
 
-  onRespondResponse: function (response) {
-    var me = this;
-
-    if (response.error) {
-      $('#login-output').append('<b><- Server</b><br/>' + response.error + '<br/>');
-    } else {
-      $('#login-output').append('<b><- Server, M2</b><br/>' + response.M2 + '<br/>');
-      if (me.getClient().step3(response.M2)) {
-        $(document).trigger('success');
-        $('#login-output').append('<b>Success!</b>');
-      } else {
-        $('#login-output').append('<b>Failure!</b>');
-      }
-    }
-
-    $('#login-output').append('<hr/>');
-  },
-
   getEmail: function () {
-    return $(this.options.emailId).attr('value');
+	  return $(this.options.emailId).val();
   },
 
   getPassword: function () {
     return $(this.options.passwordId).val();
-  },
-
-  getClient: function () {
-  
-    if (this.srpClient === null || this.getPassword() !== this.password || this.getEmail() !== this.email) {
-      this.password = this.getPassword();
-      this.email = this.getEmail();
-  	  var jsClientSession = new SRP6JavascriptClientSessionSHA256();
-      this.srpClient = jsClientSession;
-    }
-
-    return this.srpClient;
   }
+
 }
