@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html xmlns:th="www.thymeleaf.org">
 <head>
-    <title>Error page</title>
+	<meta http-equiv="refresh" th:content="'2;URL=http://' + ${#httpServletRequest.getServerName()}"/>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <link href="../../../resources/css/bootstrap.min.css" rel="stylesheet" media="screen" th:href="@{/resources/css/bootstrap.min.css}"/>
     <link href="../../../resources/css/core.css" rel="stylesheet" media="screen" th:href="@{/resources/css/core.css}"/>
+    <title>Error page</title>
 </head>
 <body>
 <div class="container">
