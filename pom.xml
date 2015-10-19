@@ -4,7 +4,7 @@
 	<groupId>org.bitbucket.simon_massey</groupId>
 	<artifactId>thinbus-srp-spring-demo</artifactId>
 	<packaging>war</packaging>
-	<version>1.3.1</version>
+	<version>1.3.2</version>
 	<name>Thinbus Secure Remote Password SRP Demo With Spring Security And Spring MVC</name>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -13,7 +13,7 @@
 		<!-- AssertJ is not a part of Spring IO platform, so the version must be 
 			provided explicitly -->
 		<assertj-core-version>3.2.0</assertj-core-version>
-		<thinbus.version>1.3.1</thinbus.version>
+		<thinbus.version>1.3.2</thinbus.version>
 		<!-- this jetty version is ahead of that in the spring platform-bom and is the one in their 2.0.0 release candidate -->
 		<jetty.version>9.2.13.v20150730</jetty.version>
 	</properties>

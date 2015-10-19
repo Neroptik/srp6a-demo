@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.bitbucket.thinbus.srp6.js.OpenSSLCryptoConfig;
+import com.bitbucket.thinbus.srp6.js.OpenSSLCryptoConfigConverter;;
 
 @Controller
 public class DHParamController {
@@ -28,7 +28,7 @@ public class DHParamController {
 		for( String raw : rawLines ) {
 			lines.add(raw.trim());
 		}
-		final OpenSSLCryptoConfig openSSLCryptoConfig = new OpenSSLCryptoConfig();
+		final OpenSSLCryptoConfigConverter openSSLCryptoConfig = new OpenSSLCryptoConfigConverter();
 		try {
 			StringBuilder builder = new StringBuilder();
 			for( String line : openSSLCryptoConfig.run(hash, lines))  {
