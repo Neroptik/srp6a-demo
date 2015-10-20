@@ -8,10 +8,10 @@
     <script src="http://code.jquery.com/jquery-latest.js"></script>
     <script src="../../../resources/js/bootstrap.min.js" th:src="@{/resources/js/bootstrap.min.js}"></script>
     <script th:src="@{/resources/js/simple-password-meter.js}"></script>
-    <!-- Include minimised Thinbus SRP JS crypo library, chosen hashing algorithm, configuration  -->
-    <script th:src="@{/resources/js/sha256-min.js}"></script>
-    <script th:src="@{/resources/js/thinbus-srp6a-min.js}"></script>
-    <script th:src="@{/resources/js/thinbus-srp6a-config-sha256n1024.js}"></script>
+    <!-- Include Thinbus SRP safe prime config first  -->
+	<script th:src="@{/resources/js/rfc5054-safe-prime-config.js}"></script>
+	<!-- Include minimised Thinbus SRP JS crypo library, chosen hashing algorithm, configuration  -->
+	<script th:src="@{/resources/js/thinbus-srp6a-sha256-min.js}"></script>
     <script th:src="@{/resources/js/signup.js}"></script>
 </head>
 <body>
