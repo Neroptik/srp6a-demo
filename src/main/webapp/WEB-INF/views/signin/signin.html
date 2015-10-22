@@ -4,16 +4,16 @@
 	<title>Sign In</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<link href="../../../resources/css/bootstrap.min.css" rel="stylesheet"
-		media="screen" th:href="@{/resources/css/bootstrap.min.css}" />
+		media="screen" th:href="@{./resources/css/bootstrap.min.css}" />
 	<link href="../../../resources/css/core.css" rel="stylesheet"
-		media="screen" th:href="@{/resources/css/core.css}" />
+		media="screen" th:href="@{./resources/css/core.css}" />
 	<!-- Include minimised Thinbus SRP JS crypo library, chosen hashing algorithm, configuration  -->
 	<script src="http://code.jquery.com/jquery-latest.js"></script>
     <!-- Include Thinbus SRP safe prime config first  -->
-	<script th:src="@{/resources/js/rfc5054-safe-prime-config.js}"></script>
+	<script th:src="@{./resources/js/rfc5054-safe-prime-config.js}"></script>
 	<!-- Include minimised Thinbus SRP JS crypo library, chosen hashing algorithm, configuration  -->
-	<script th:src="@{/resources/js/thinbus-srp6a-sha256-min.js}"></script>
-	<script th:src="@{/resources/js/signin.js}"></script>
+	<script th:src="@{./resources/js/thinbus-srp6a-sha256-min.js}"></script>
+	<script th:src="@{./resources/js/signin.js}"></script>
 </head>
 <body>
 	<form id="login-form" class="form-narrow form-horizontal" method="post">
