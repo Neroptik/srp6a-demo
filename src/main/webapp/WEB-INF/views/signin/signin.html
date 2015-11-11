@@ -7,8 +7,7 @@
 		media="screen" th:href="@{./resources/css/bootstrap.min.css}" />
 	<link href="../../../resources/css/core.css" rel="stylesheet"
 		media="screen" th:href="@{./resources/css/core.css}" />
-	<!-- Include minimised Thinbus SRP JS crypo library, chosen hashing algorithm, configuration  -->
-	<script src="http://code.jquery.com/jquery-latest.js"></script>
+	<script src="../../../resources/js/jquery-2.1.4.min.js" th:src="@{./resources/js/jquery-2.1.4.min.js}"></script>
     <!-- Include Thinbus SRP safe prime config first  -->
 	<script th:src="@{./resources/js/rfc5054-safe-prime-config.js}"></script>
 	<!-- Include minimised Thinbus SRP JS crypo library, chosen hashing algorithm, configuration  -->
@@ -82,6 +81,7 @@ $(function () {
    formId: '#login-form',
    whitelistFields: [ 
      'email', 
+     '_spring_security_remember_me',
      /*[[${_csrf.parameterName}]]*/ 
    ],
    debugOutput: function (msg) {

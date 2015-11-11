@@ -23,6 +23,8 @@ Note that the server has to remember the one-time server challenge `B` that it g
 
 The demo may be running at [http://thinbus-n00p.rhcloud.com/](http://thinbus-n00p.rhcloud.com/) if not then you should have the build tool compile and run a local server with the two commands in the next section. 
 
+The very latest code has been seen to work on IE8+, Edge, Chrome, FF, Safari (the rhcloud.com demo may be out of date).  
+
 ## Building And Running
 
 ```sh

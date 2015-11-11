@@ -5,7 +5,7 @@
 var Login = {
 		
   /**
-   * The following options may be overridden by passing a customer options object into `initialize` method. 
+   * The following default options may overridden by passing a customer options object into `initialize` method.
    * See http://simon_massey.bitbucket.org/thinbus/login.png
    * @param challengeUrl The URL to do the AJAX lookup to get the user's salt `s` and one-time random server challenge `B`. 
    * @param securityCheckUrl The URL to post the password proof. 
@@ -35,13 +35,17 @@ var Login = {
     }
     
     $(me.options.formId).on('submit', function (e) {
-      // We MUST prevent default submit logic which would submit the raw password so that we can do the SRP protocol instead. 
+      // We MUST prevent default submit logic which would submit the raw password.
       e.preventDefault();
+      
+      // Instead we copy the allowed fields out of the real form and AJAX post them to the server. 
       
       var loginForm = $(me.options.formId);
       var fields = loginForm.serializeArray();
       
-      var postValues = {};
+      var postValues = {
+    	challenge: "true" // helpful to the PHP demo which uses the same uri for both the callenge and the password proof
+      };
 
       // copy only white-listed fields such that you don't post the raw password and do pass any additional required fields e.g. CSRF Token
       $.each(fields, function (i, field) {
@@ -70,7 +74,7 @@ var Login = {
     var password = me.getPassword();
     var srpClient = new SRP6JavascriptClientSessionSHA256();
     
-    var start = Date.now();
+    var start = +(new Date());
 
     try {
     	srpClient.step1(email, password);
@@ -78,10 +82,12 @@ var Login = {
     	console.log('unexpected programmer error: '+e.message);
     	window.location = window.location;
     }
+
+    //console.log("salt:"+response.s)
     
     var credentials = srpClient.step2(response.salt, response.b);
 
-    var end = Date.now();
+    var end = +(new Date());
 
     var loginForm = $(me.options.formId);
     var fields = loginForm.serializeArray();
@@ -103,6 +109,7 @@ var Login = {
 	me.options.debugOutput('Client: ' + JSON.stringify(values) );
 
     $.post(me.options.securityCheckUrl, values, function (response) {
+    	me.options.debugOutput('Server: ' + JSON.stringify(response).substring(0,100) );
   	  $('body').html(response);
     });
   },
