@@ -48,6 +48,14 @@ public class SrpAccountEntity implements java.io.Serializable {
 		this.role = role;
 	}
 
+	// this models people guessing emails and being given a random salt
+	public SrpAccountEntity(String email, String salt) {
+		this.email = email;
+		this.salt = salt;
+		this.verifier = null;
+		this.role = null;
+	}
+
     public String getEmail() {
 		return email;
 	}
