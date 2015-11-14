@@ -2,6 +2,7 @@ package com.bitbucket.thinbus.srp6.spring;
 
 import java.util.concurrent.TimeUnit;
 
+import com.nimbusds.srp6.SRP6CryptoParams;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -31,12 +32,15 @@ public class SrpSecurityConfig extends WebSecurityConfigurerAdapter {
 	}
 
 	@Value("${thinbus.N}")
-	private String N;
+    protected String N;
 
 	@Value("${thinbus.g}")
-	private String g;
+    protected String g;
 
-	@Bean
+    @Value("${thinbus.salt.of.fake.salt}")
+    protected String saltOfFakeSalt;
+
+    @Bean
 	LoadingCache<SrpAccountEntity, SRP6JavascriptServerSession> sessionCache() {
 		return CacheBuilder
 				.newBuilder()
