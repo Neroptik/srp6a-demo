@@ -1,6 +1,6 @@
 # Thinbus Secure Remote Password SRP6a Authentication with Spring Security
 
-Copyright (c) Simon Massey, 2015
+Copyright (c) Simon Massey, 2015 - 2017
  
 This demo application uses [Thinbus SRP](https://bitbucket.org/simon_massey/thinbus-srp-js) to register and login users into a Spring MVC web application using Spring Security. 
 
