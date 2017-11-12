@@ -17,13 +17,11 @@ JavaScript then makes an AJAX call using their email to load their `salt` and a 
 a one-time client challenge `A` and uses all the information to compute a password proof `M1`. It then posts to the server 
 the email, `A`+`M1` as the user's credentials. The user experience is that they enter their username and password and hit submit and are logged in; just like a normal login form. 
 
-Note that the server has to remember the one-time server challenge `B` that it gave to the browser in order to check the user's password proof `A`+`M1`. This requires that temporary authentication state within is held on the server between step1 and step2. This can be held in either the database, the server session or a server cache for the short duration of the login protocol. Spring Security does not expose the user `HTTPSession` to the `AuthenticationProvider`. So the demo code uses a Guava cache with a timeout to hold the state for the brief period of the login exchange. As of Thinbus 1.2.1 the state is serialisable so an alternative approach for a large stateless website would be to hold the temporary authentication state in the DB rather than in an in-memory cache.  
+Note that the server has to remember the one-time ephemeral private key `b` that corresponds to the server challenge `B` that it gave to the browser in order to check the user's password proof `A`+`M1`. This requires that temporary authentication state within is held on the server between step1 and step2. This can be held in either the database, the server session or a server cache for the short duration of the login protocol. Spring Security does not expose the user `HTTPSession` to the `AuthenticationProvider`. So the demo code uses a Guava cache with a timeout to hold the state for the brief period of the login exchange. As of Thinbus 1.2.1 the state is serialisable so an alternative approach for a large stateless website would be to hold the temporary authentication state in the DB rather than in an in-memory cache.  
 
 ## Demo
 
-The demo may be running at [http://thinbus-n00p.rhcloud.com/](http://thinbus-n00p.rhcloud.com/) if not then you should have the build tool compile and run a local server with the two commands in the next section. 
-
-The very latest code has been seen to work on IE8+, Edge, Chrome, FF, Safari (the rhcloud.com demo may be out of date).  
+The very latest code has been seen to work on IE8+, Edge, Chrome, FF, Safari: 
 
 ## Building And Running
 
