@@ -1,0 +1,1 @@
+JAVA_MAIN_CLASS=org.apache.tomcat.maven.runner.Tomcat7RunnerCli
