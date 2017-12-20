@@ -17,6 +17,7 @@
 		<!-- this jetty version is ahead of that in the spring platform-bom and
 			is the one in their 2.0.0 release candidate -->
 		<jetty.version>9.2.13.v20150730</jetty.version>
+		<jaxb-api.version>2.2.7</jaxb-api.version>
 	</properties>
 	<dependencyManagement>
 		<dependencies>
@@ -145,6 +146,22 @@
 			<groupId>com.google.guava</groupId>
 			<artifactId>guava</artifactId>
 		</dependency>
+		<!-- see https://stackoverflow.com/a/47639633/329496 -->
+		<dependency>
+            <groupId>javax.xml.bind</groupId>
+            <artifactId>jaxb-api</artifactId>
+            <version>${jaxb-api.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.sun.xml.bind</groupId>
+            <artifactId>jaxb-impl</artifactId>
+            <version>${jaxb-api.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.sun.xml.bind</groupId>
+            <artifactId>jaxb-core</artifactId>
+            <version>${jaxb-api.version}</version>
+        </dependency>
 		<!-- Test -->
 		<dependency>
 			<groupId>junit</groupId>
