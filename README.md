@@ -49,7 +49,7 @@ A salient feature of the integration is that there are no changes to the standar
 ## License
 
 ```
-   Copyright 2015 Simon Massey
+   Copyright 2015-2017 Simon Massey
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
