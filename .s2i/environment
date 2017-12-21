@@ -1,3 +1,4 @@
-NO_PROXY=127.0.0.1
+no_proxy=127.0.0.1
 JAVA_MAIN_CLASS=org.apache.tomcat.maven.runner.Tomcat7RunnerCli
 MEMORY=250m 
+
