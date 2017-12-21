@@ -39,7 +39,7 @@ Alternatively you can use [s2i](https://github.com/openshift/source-to-image/rel
 # build from the source code a ready to run image using the redhat openjdk 1.8 build image
  s2i --incremental=true build https://simon_massey@bitbucket.org/simon_massey/thinbus-srp-spring-demo.git registry.access.redhat.com/redhat-openjdk-18/openjdk18-openshift:1.1 thinbus-srp-spring-demo
 # run the built iamge
-docker run -it -p 8080:8080 thinbus-srp-spring-demo
+docker run -it -p 8080:8080 --env no_proxy=localhost thinbus-srp-spring-demo
 ```
 
 ## Notes
