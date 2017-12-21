@@ -1,1 +1,3 @@
-NO_PROXY=localhost JAVA_DEBUG=true JAVA_MAIN_CLASS=org.apache.tomcat.maven.runner.Tomcat7RunnerCli MEMORY=250m 
+NO_PROXY=127.0.0.1
+JAVA_MAIN_CLASS=org.apache.tomcat.maven.runner.Tomcat7RunnerCli
+MEMORY=250m 
