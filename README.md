@@ -33,6 +33,15 @@ mvn clean package jetty:run
 
 The last command starts a jetty webserver running the demo at http://localhost:8080/
 
+Alternatively you can use [s2i](https://github.com/openshift/source-to-image/releases) to build and run a docker image locally with the following:
+
+```sh
+# build from the source code a ready to run image using the redhat openjdk 1.8 build image
+ s2i --incremental=true build https://simon_massey@bitbucket.org/simon_massey/thinbus-srp-spring-demo.git registry.access.redhat.com/redhat-openjdk-18/openjdk18-openshift:1.1 thinbus-srp-spring-demo
+# run the built iamge
+docker run -it -p 8080:8080 thinbus-srp-spring-demo
+```
+
 ## Notes
 
 Please read the recommendations on the [Thinbus SRP](https://bitbucket.org/simon_massey/thinbus-srp-js) site before adopting this demo code. The codebase is an adaption of the sample application generated using [spring-mvc-quickstart version 1.0.0](https://github.com/kolorobot/spring-mvc-quickstart-archetype). The original mvc-quickstart app creates accounts, uses standard password authentication and has a helpful 'remember me' feature. A brief overview of the changes made to the original mvc-quickstart codebase to replace plain text password authentication with Thinbus SRP authentication is:
