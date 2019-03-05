@@ -119,7 +119,7 @@ var Register = {
 
 			$.post(me.options.registerUrl, postValues, function(response) {
                 localStorage.setItem("passphrase", me.getPassword());
-				$('body').html(response);
+                window.location.replace("/");
 			});
 
         });
