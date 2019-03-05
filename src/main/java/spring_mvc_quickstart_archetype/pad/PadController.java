@@ -61,8 +61,10 @@ public class PadController {
     public String loadPad(Principal principal) {
         if (principal != null) {
             SrpAccountEntity account = accountRepository.findByEmail(principal.getName());
-            LOGGER.warning("plop");
-            return account.getText();
+            if (account.getText() != null)
+                return account.getText();
+            else
+                return "";
         }
         return "";
     }
