@@ -1,6 +1,7 @@
 package com.bitbucket.thinbus.srp6.spring;
 
 import javax.persistence.Column;
+import javax.persistence.Lob;
 import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -21,6 +22,16 @@ public class SrpAccountEntity implements java.io.Serializable {
 	@Id
 	private String email;
 	
+    
+	@Column(length = 10000)
+	private String pgppriv;
+
+	@Column(length = 10000)
+	private String pgppub;
+
+	@Column(length = 10000)
+	private String text;
+
 	@Column(unique = true)
 	private String salt;
 
@@ -40,12 +51,14 @@ public class SrpAccountEntity implements java.io.Serializable {
 
 	}
 	
-	public SrpAccountEntity(String email, String salt, String verifier,
-			String role) {
+	public SrpAccountEntity(String email, String salt, String verifier, String pgppriv, String pgppub, String role) {
 		this.email = email;
 		this.salt = salt;
 		this.verifier = verifier;
 		this.role = role;
+        this.pgppriv = pgppriv;
+        this.pgppub = pgppub;
+        this.text = null;
 	}
 
 	// this models people guessing emails and being given a random salt
@@ -54,6 +67,9 @@ public class SrpAccountEntity implements java.io.Serializable {
 		this.salt = salt;
 		this.verifier = null;
 		this.role = null;
+        this.pgppriv = null;
+        this.pgppub = null;
+        this.text = null;
 	}
 
     public String getEmail() {
@@ -79,6 +95,30 @@ public class SrpAccountEntity implements java.io.Serializable {
 	public void setSalt(String salt) {
 		this.salt = salt;
 	}
+
+    public String getPgppriv() {
+        return pgppriv;
+    }
+
+    public void setPgppriv(String pgppriv) {
+        this.pgppriv = pgppriv;
+    }
+
+    public String getPgppub() {
+        return pgppub;
+    }
+
+    public void setPgppub(String pgppub) {
+        this.pgppub = pgppub;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
+    }
 
 	public String getRole() {
 		return role;
@@ -137,6 +177,6 @@ public class SrpAccountEntity implements java.io.Serializable {
 	@Override
 	public String toString() {
 		return "SrpAccountEntity [email=" + email + ", salt="
-				+ salt + ", verifier=" + verifier + ", role=" + role + "]";
+				+ salt + ", verifier=" + verifier + ", role=" + role + ", pgppriv=" + pgppriv + ", pgppub=" + pgppub + "]";
 	}
 }

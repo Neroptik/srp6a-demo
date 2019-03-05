@@ -57,7 +57,7 @@ public class SrpController {
 		if (errors.hasErrors()) {
 			return SIGNUP_VIEW_NAME;
 		}
-		SrpAccountEntity account = accountRepository.save(signupForm
+        SrpAccountEntity account = accountRepository.save(signupForm
 				.createAccount());
 		userService.signin(account);
 		// see /WEB-INF/i18n/messages.properties and
@@ -119,5 +119,4 @@ public class SrpController {
 
 		}
 	}
-
 }

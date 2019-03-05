@@ -18,6 +18,12 @@ public class SrpSignupForm {
 	@NotBlank(message = SrpSignupForm.NOT_BLANK_MESSAGE)
 	private String verifier;
 
+	@NotBlank(message = SrpSignupForm.NOT_BLANK_MESSAGE)
+	private String pgppriv;
+	
+    @NotBlank(message = SrpSignupForm.NOT_BLANK_MESSAGE)
+	private String pgppub;
+
 	public String getEmail() {
 		return email;
 	}
@@ -42,8 +48,24 @@ public class SrpSignupForm {
 		this.verifier = verifier;
 	}
 
+	public String getPgppriv() {
+		return pgppriv;
+	}
+
+	public void setPgppriv(String pgppriv) {
+		this.pgppriv = pgppriv;
+	}
+
+	public String getPgppub() {
+		return pgppub;
+	}
+
+	public void setPgppub(String pgppub) {
+		this.pgppub = pgppub;
+	}
+
 	public SrpAccountEntity createAccount() {
-		return new SrpAccountEntity(getEmail(), getSalt(), getVerifier(),
+		return new SrpAccountEntity(getEmail(), getSalt(), getVerifier(), getPgppriv(), getPgppub(),
 				"ROLE_USER");
 	}
 }

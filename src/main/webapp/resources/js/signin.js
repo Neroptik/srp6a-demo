@@ -1,19 +1,19 @@
 /**
- * The Login object uses jQuery AJAX and an SRP6JavascriptClientSessionSHA256 object to perform a proof-of-password.  
+ * The Login object uses jQuery AJAX and an SRP6JavascriptClientSessionSHA256 object to perform a proof-of-password.
  * See http://simon_massey.bitbucket.org/thinbus/login.png
  */
 var Login = {
-		
+
   /**
    * The following default options may overridden by passing a customer options object into `initialize` method.
    * See http://simon_massey.bitbucket.org/thinbus/login.png
-   * @param challengeUrl The URL to do the AJAX lookup to get the user's salt `s` and one-time random server challenge `B`. 
-   * @param securityCheckUrl The URL to post the password proof. 
-   * @param emailId The id of the form input field where the user gives their id/email used in the AJAX fetch of the user's salt and challenge. 
-   * @param passwordId The id of the password field used to compute a proof-of-password with the server one-time challenge and the user's salt. 
-   * @param formId The form who's onSubmit will run the SRP protocol. 
-   * @param whitelistFields The fields to post to the server. MUST NOT INCLUDE THE RAW PASSWORD. Some frameworks embed a CSRF token in every form which must be submitted with the form so that hidden field can be whitelisted. 
-   * @param debugOutput The demo overrides this to output to html in the page. 
+   * @param challengeUrl The URL to do the AJAX lookup to get the user's salt `s` and one-time random server challenge `B`.
+   * @param securityCheckUrl The URL to post the password proof.
+   * @param emailId The id of the form input field where the user gives their id/email used in the AJAX fetch of the user's salt and challenge.
+   * @param passwordId The id of the password field used to compute a proof-of-password with the server one-time challenge and the user's salt.
+   * @param formId The form who's onSubmit will run the SRP protocol.
+   * @param whitelistFields The fields to post to the server. MUST NOT INCLUDE THE RAW PASSWORD. Some frameworks embed a CSRF token in every form which must be submitted with the form so that hidden field can be whitelisted.
+   * @param debugOutput The demo overrides this to output to html in the page.
    */
   options: {
 	 challengeUrl: './challenge',
@@ -33,16 +33,16 @@ var Login = {
     if (options) {
       me.options = options;
     }
-    
+
     $(me.options.formId).on('submit', function (e) {
       // We MUST prevent default submit logic which would submit the raw password.
       e.preventDefault();
-      
-      // Instead we copy the allowed fields out of the real form and AJAX post them to the server. 
-      
+
+      // Instead we copy the allowed fields out of the real form and AJAX post them to the server.
+
       var loginForm = $(me.options.formId);
       var fields = loginForm.serializeArray();
-      
+
       var postValues = {
     	challenge: "true" // helpful to the PHP demo which uses the same uri for both the callenge and the password proof
       };
@@ -73,7 +73,7 @@ var Login = {
     var email = me.getEmail();
     var password = me.getPassword();
     var srpClient = new SRP6JavascriptClientSessionSHA256();
-    
+
     var start = +(new Date());
 
     try {
@@ -84,14 +84,14 @@ var Login = {
     }
 
     //console.log("salt:"+response.s)
-    
+
     var credentials = srpClient.step2(response.salt, response.b);
 
     var end = +(new Date());
 
     var loginForm = $(me.options.formId);
     var fields = loginForm.serializeArray();
-    
+
     var values = {
 		username: me.getEmail(),
 		password: credentials.M1+":"+credentials.A
@@ -104,13 +104,14 @@ var Login = {
       	values[field.name] = field.value;
       }
     });
-    
+
 	me.options.debugOutput('Client: crypto took ' + (end-start) + 'ms');
 	me.options.debugOutput('Client: ' + JSON.stringify(values) );
 
     $.post(me.options.securityCheckUrl, values, function (response) {
     	me.options.debugOutput('Server: ' + JSON.stringify(response).substring(0,100) );
-  	  $('body').html(response);
+        localStorage.setItem("passphrase", me.getPassword());
+  	    $('body').html(response);
     });
   },
 

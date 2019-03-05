@@ -19,6 +19,12 @@ public class SrpAccountRepository {
 		entityManager.persist(account);
 		return account;
 	}
+
+	@Transactional
+	public SrpAccountEntity update(SrpAccountEntity account) {
+		entityManager.merge(account);
+		return account;
+	}
 	
 	public SrpAccountEntity findByEmail(String email) {
 		try {
