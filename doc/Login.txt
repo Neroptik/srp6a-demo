@@ -1,0 +1,28 @@
+title Login
+activate User
+activate Browser
+User->Browser: http://qwantmail.com/login
+activate Server
+Browser->Server: AJAX /dhparameters
+Browser<<-Server: dhparameters
+User->Browser:- email\n- pass
+deactivate Server
+space
+deactivate User
+activate Server
+Browser->Server: AJAX /challenge\n- email
+Server<-Database:findUser(email)\n- salt\n- verifier
+Server->Server:server.step1(email,salt,verifier) {B}
+Browser<<-Server:- salt\n- B
+Browser->Browser: client.step1(email,pass) {A}\nclient.step2(salt,B) {M1}
+Browser->Server: AJAX /authenticate\n- email\n- A\n- M1
+Server->Server:server.step2(A,M1)
+alt authenticated
+Server<-Database:findUser(email)\n- private-key\n- public-key
+Browser<-Server: REDIRECT /home\n- private-key\n- public-key
+else not authenticated
+Browser<-Server: REDIRECT /login
+end
+space
+deactivate Server
+deactivate Browser

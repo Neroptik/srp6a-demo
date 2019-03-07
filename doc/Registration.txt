@@ -1,0 +1,20 @@
+title Registration
+
+activate User
+activate Browser
+User->Browser: http://qwantmail.com/register
+activate Server
+Browser->Server: ajax /dhparameters
+Browser<<-Server: dhparameters
+space
+deactivate Server
+User->Browser:- name\n- surname\n- email\n- pass
+space
+deactivate User
+Browser->Browser:generateRandomSalt()\ngenerateVerifier(salt,email,pass)\ngeneratePGPKeys(name,surname,email,pass)
+activate Server
+Browser->Server:POST /register \n- email\n- salt\n- verifier\n- private-key\n- public-key\n- revocation-cert
+Server->Database:storeUser()\n- email\n- salt\n- verifier\n- private-key\n- public-key\n- revocation-cert
+space
+deactivate Browser
+deactivate Server
