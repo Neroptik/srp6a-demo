@@ -26,21 +26,10 @@ The very latest code has been seen to work on IE8+, Edge, Chrome, FF, Safari:
 ## Building And Running
 
 ```sh
-git clone git@bitbucket.org:simon_massey/thinbus-srp-spring-demo.git
-cd thinbus-srp-spring-demo
 mvn clean package jetty:run
 ```
 
-The last command starts a jetty webserver running the demo at http://localhost:8080/
-
-Alternatively you can use [s2i](https://github.com/openshift/source-to-image/releases) to build and run a docker image locally with the following:
-
-```sh
-# build from the source code a ready to run image using the redhat openjdk 1.8 build image
- s2i --incremental=true build https://simon_massey@bitbucket.org/simon_massey/thinbus-srp-spring-demo.git registry.access.redhat.com/redhat-openjdk-18/openjdk18-openshift:1.1 thinbus-srp-spring-demo
-# run the built iamge
-docker run -it -p 8080:8080 --env no_proxy=localhost thinbus-srp-spring-demo
-```
+The command starts a jetty webserver running the demo at http://localhost:8080/
 
 ## Notes
 
