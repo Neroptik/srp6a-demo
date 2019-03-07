@@ -6,11 +6,11 @@ This demo application uses [Thinbus SRP](https://bitbucket.org/simon_massey/thin
 
 The following sequence diagram shows how the user is registered using an email, salt and password verifier generated at the browser: 
 
-![Thinbus SRP Register Diagram](http://simonmassey.bitbucket.io/thinbus/register.png "Thinbus SRP Register Diagram")
+![Thinbus SRP Register Diagram](https://raw.githubusercontent.com/Neroptik/srp6a-demo/master/doc/Registration.png "Thinbus SRP Register Diagram")
 
 The following sequence diagram shows how a registered user is logged in: 
 
-![Thinbus SRP Login Diagram](http://simonmassey.bitbucket.io/thinbus/login.png "Thinbus SRP Login Diagram")
+![Thinbus SRP Login Diagram](https://raw.githubusercontent.com/Neroptik/srp6a-demo/master/doc/Login.png "Thinbus SRP Login Diagram")
 
 In the diagram above the user is shown a standard login form. They enter their email and password and click the login button. 
 JavaScript then makes an AJAX call using their email to load their `salt` and a one-time server challenge `B`. JavaScript creates 
